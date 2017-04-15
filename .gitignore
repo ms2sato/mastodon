@@ -20,6 +20,7 @@ public/system
 public/assets
 .env
 .env.production
+.env.development
 node_modules/
 neo4j/
 

@@ -33,7 +33,7 @@
         - else
           = @instance_presenter.closed_registrations_message.html_safe
         .info
-          = link_to t('auth.login'), new_user_session_path, class: 'webapp-btn'
+          = link_to t('auth.login'), user_github_omniauth_authorize, class: 'webapp-btn'
           ·
           = link_to t('about.other_instances'), 'https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/List-of-Mastodon-instances.md'
           ·

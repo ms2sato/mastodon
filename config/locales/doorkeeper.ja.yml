@@ -6,6 +6,8 @@ ja:
         name: 名前
         redirect_uri: リダイレクトURI
     errors:
+      messages:
+        record_invalid: データが不正です
       models:
         doorkeeper/application:
           attributes:
