@@ -55,6 +55,8 @@ module ErrorHandler
 
   # 基本的にエラーはログを取り#{Rails.root}/public/[status_code].htmlを表示
   def handle_error(exception, status_code)
+    return if block!
+
     process_logging(exception, status_code)
     if behave_productions?
       return unless process_on_productions(exception, status_code)
@@ -104,6 +106,10 @@ module ErrorHandler
   end
 
   private
+
+  def block!
+    return false
+  end
 
   def behave_productions?
     Rails.env.production? || Rails.env.staging?

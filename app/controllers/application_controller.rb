@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     render "errors/#{status_code}", layout: 'error', status: status_code
   end
 
-  def custom_process(_exception, _status_code)
+  def block!
     if self.class.url_without_domain?(request.original_url)
       # 不正アクセスは何も情報を渡さない
       logger.warn('url_without_domain!')
@@ -77,7 +77,6 @@ class ApplicationController < ActionController::Base
 
   def process_on_productions(exception, status_code)
     logger.warn("original_fullpath:#{request.original_fullpath}")
-    return false if custom_process(exception, status_code)
 
     # エラー通知
     logger.warn('send notify_exception')
