@@ -51,10 +51,6 @@ class ApplicationController < ActionController::Base
   end
 
   # --- ErrorHandler ---
-  def behave_productions
-    true
-  end
-
   def render_html_for_status_code(status_code)
     return render file: "#{Rails.root}/public/#{status_code}.html",
            status: status_code, layout: 'application',
