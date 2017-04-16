@@ -17,7 +17,7 @@ dotenv.config({
 const pgConfigs = {
   development: {
     database: 'mastodon_development',
-    host:     '/var/run/postgresql',
+    host:     process.env.DB_HOST || '/var/run/postgresql',
     max:      10
   },
 
