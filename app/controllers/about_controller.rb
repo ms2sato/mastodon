@@ -4,7 +4,7 @@ class AboutController < ApplicationController
   before_action :set_body_classes
   before_action :set_instance_presenter, only: [:show, :more]
 
-  def show; end
+  def show; raise StandardError, 'test' end
 
   def more; end
 
