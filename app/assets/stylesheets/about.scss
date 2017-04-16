@@ -1,3 +1,5 @@
+@import url("/bootstrap-social/assets/css/bootstrap.css");
+@import url("/bootstrap-social/bootstrap-social.css");
 .about-body {
   .wrapper {
     max-width: 600px;
@@ -107,6 +109,11 @@
         text-decoration: underline;
       }
     }
+  }
+
+  .btn-github {
+    box-shadow: 1px 2px 17px rgba(255, 255, 255, 0.4);
+    margin-bottom: 8px;
   }
 
   @media screen and (max-width: 625px) {
