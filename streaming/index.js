@@ -36,11 +36,13 @@ const pgPool = new pg.Pool(pgConfigs[env])
 const server = http.createServer(app)
 const wss    = new WebSocket.Server({ server })
 
-const redisClient = redis.createClient({
+const redisParams = process.env.REDIS_URL || {
   host:     process.env.REDIS_HOST     || '127.0.0.1',
   port:     process.env.REDIS_PORT     || 6379,
   password: process.env.REDIS_PASSWORD
-})
+}
+
+const redisClient = redis.createClient(redisParams)
 
 const subs = {}
 
