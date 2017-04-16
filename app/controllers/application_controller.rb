@@ -66,6 +66,12 @@ class ApplicationController < ActionController::Base
       render nothing: true, status: 404
       return true
     end
+
+    if request.fullpath == '/auth/sign_up'
+      render nothing: true, status: 404
+      return true
+    end
+
     false
   end
 
