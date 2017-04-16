@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include ErrorHandler
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -10,17 +12,9 @@ class ApplicationController < ActionController::Base
   include Localized
   helper_method :current_account
 
-  rescue_from ActionController::RoutingError, with: :not_found
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
-  rescue_from ActionController::InvalidAuthenticityToken, with: :unprocessable_entity
-
   before_action :store_current_location, except: :raise_not_found, unless: :devise_controller?
   before_action :set_user_activity
   before_action :check_suspension, if: :user_signed_in?
-
-  def raise_not_found
-    raise ActionController::RoutingError, "No route matches #{params[:unmatched_route]}"
-  end
 
   private
 
@@ -48,13 +42,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def not_found
-    respond_to do |format|
-      format.any  { head 404 }
-      format.html { render 'errors/404', layout: 'error', status: 404 }
-    end
-  end
-
+  # TODO: check called?
   def gone
     respond_to do |format|
       format.any  { head 410 }
@@ -62,12 +50,35 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def unprocessable_entity
-    respond_to do |format|
-      format.any  { head 422 }
-      format.html { render 'errors/422', layout: 'error', status: 422 }
-    end
+  # --- ErrorHandler ---
+  def render_html_for_status_code(status_code)
+    return render file: "#{Rails.root}/public/#{status_code}.html",
+           status: status_code, layout: 'application',
+           content_type: 'text/html' if status_code == 500
+
+    render "errors/#{status_code}", layout: 'error', status: status_code
   end
+
+  def custom_process(_exception, _status_code)
+    if self.class.url_without_domain?(request.original_url)
+      # 不正アクセスは何も情報を渡さない
+      logger.warn('url_without_domain!')
+      render nothing: true, status: 404
+      return true
+    end
+    false
+  end
+
+  def process_on_productions(exception, status_code)
+    logger.warn("original_fullpath:#{request.original_fullpath}")
+    return false if custom_process(exception, status_code)
+
+    # エラー通知
+    logger.warn('send notify_exception')
+    Rollbar.error(exception, env: request.env)
+    true
+  end
+  # / --- ErrorHandler ---
 
   def current_account
     @current_account ||= current_user.try(:account)
@@ -96,4 +107,14 @@ class ApplicationController < ActionController::Base
 
     raw.map { |item| cached_keys_with_value[item.cache_key] || uncached[item.id] }.compact
   end
+
+  private
+    def self.match_url_without_domain(str)
+      /^https?\:\/\/(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/ =~ str
+    end
+
+    def self.url_without_domain?(str)
+      self.match_url_without_domain(str) == 0
+    end
+
 end
