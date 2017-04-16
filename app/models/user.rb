@@ -36,9 +36,9 @@ class User < ApplicationRecord
     user = User.joins(:account).find_by(accounts: {provider: auth["provider"], uid: auth["uid"]})
     unless user
       user = self.new
-      user.email =  auth["info"]["email"]
+      user.email =  auth["info"]["email"] || "#{auth["uid"]}@#{auth["provider"]}"
       user.build_account(
-        uid:auth["uid"],
+        uid: auth["uid"],
         provider: auth["provider"]
       )
       user.password = Devise.friendly_token[0, 20]
@@ -57,8 +57,8 @@ class User < ApplicationRecord
     account = user.account
 
     account.token = auth["credentials"]["token"]
-    account.username = auth["info"]["nickname"]
-    account.display_name = auth["info"]["name"] || auth["info"]["nickname"]
+    account.username = auth["info"]["nickname"] || auth["uid"]
+    account.display_name = auth["info"]["name"] || account.username
     account.avatar_remote_url = auth["info"]["image"]
     account.note = auth["info"].fetch('bio') { "" }
   end

@@ -4,5 +4,13 @@ class Auth::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     sign_in User.from_omniauth request.env["omniauth.auth"]
     set_flash_message(:notice, :success, kind: "Github") if is_navigational_format?
     redirect_to root_url, event: :authentication
+  rescue => e
+    p e.record.errors
+    Rails.logger.warn e.record.errors
+    raise e
+  end
+
+  def after_omniauth_failure_path_for(_)
+    about_path
   end
 end
