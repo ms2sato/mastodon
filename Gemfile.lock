@@ -249,6 +249,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.1.0)
+    newrelic_rpm (4.1.0.333)
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
@@ -513,6 +514,7 @@ DEPENDENCIES
   letter_opener_web
   link_header
   lograge
+  newrelic_rpm
   nokogiri
   oj
   omniauth-github
