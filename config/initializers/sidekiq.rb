@@ -4,7 +4,6 @@ password = ENV.fetch('REDIS_PASSWORD') { false }
 
 Sidekiq.configure_server do |config|
   config.redis = { host: host, port: port, password: password}
-  config.options[:concurrency] = ENV.fetch('SIDEKIQ_CONCURRENCY') { 5 }
 end
 
 Sidekiq.configure_client do |config|
