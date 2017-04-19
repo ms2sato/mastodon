@@ -151,7 +151,7 @@ Docker is great for quickly trying out software, but it has its drawbacks too. I
 
 ## Deployment on Heroku (experimental)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ms2sato/mastodon/tree/techdrive)
 
 Mastodon can run on [Heroku](https://heroku.com), but it gets expensive and impractical due to how Heroku prices resource usage. [You can view a guide for deployment on Heroku here](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Heroku-guide.md), but you have been warned.
 

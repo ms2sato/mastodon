@@ -78,9 +78,12 @@ class ApplicationController < ActionController::Base
   def process_on_productions(exception, status_code)
     logger.warn("original_fullpath:#{request.original_fullpath}")
 
-    # エラー通知
-    logger.warn('send notify_exception')
-    Rollbar.error(exception, env: request.env)
+    if ENV['ROLLBAR_ACCESS_TOKEN']
+      # エラー通知
+      logger.warn('send notify_exception')
+      Rollbar.error(exception, env: request.env)
+    end
+
     true
   end
   # / --- ErrorHandler ---
