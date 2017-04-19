@@ -97,7 +97,7 @@ group :development do
   gem 'capistrano-faster-assets', '~> 1.0'
 end
 
-group :production do
+group :production, :staging do
   gem 'rails_12factor'
   gem 'redis-rails'
   gem 'lograge'
