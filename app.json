@@ -1,8 +1,8 @@
 {
-  "name": "Mastodon",
-  "description": "A GNU Social-compatible microblogging server",
-  "repository": "https://github.com/tootsuite/mastodon",
-  "logo": "https://github.com/tootsuite/mastodon/raw/master/app/assets/images/logo.png",
+  "name": "Mastodon for TECH DRIVE",
+  "description": "A GNU Social-compatible microblogging server customized for TECH DRIVE",
+  "repository": "https://github.com/ms2sato/mastodon",
+  "logo": "https://github.com/ms2sato/mastodon/raw/master/app/assets/images/logo.png",
   "env": {
     "HEROKU": {
       "description": "Leave this as true",
@@ -91,12 +91,21 @@
     "SMTP_ENABLE_STARTTLS_AUTO": {
       "description": "Enable STARTTLS if SMTP server supports it? Default is true.",
       "required": false
+    },
+    "GITHUB_CLIENT_ID": {
+      "description": "Github Client ID for login",
+      "required": true
+    },
+    "GITHUB_SECRET": {
+      "description": "Github Client Secret for login",
+      "required": true
+    },
+    "ROLLBAR_ACCESS_TOKEN": {
+      "description": "Rollbar access token.",
+      "required": false
     }
   },
   "buildpacks": [
-    {
-      "url": "heroku/nodejs"
-    },
     {
       "url": "heroku/ruby"
     }
