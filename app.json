@@ -103,6 +103,21 @@
     "ROLLBAR_ACCESS_TOKEN": {
       "description": "Rollbar access token.",
       "required": false
+    },
+    "WEB_CONCURRENCY": {
+      "description": "Web Concurrency",
+      "value": "1",
+      "required": false
+    },
+    "MAX_THREADS": {
+      "description": "Max threds of Web instance",
+      "value": "1",
+      "required": false
+    },
+    "SIDEKIQ_CONCURRENCY": {
+      "description": "Sidekiq Concurrency",
+      "value": "1",
+      "required": false
     }
   },
   "buildpacks": [
