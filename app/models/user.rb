@@ -42,9 +42,10 @@ class User < ApplicationRecord
         provider: auth["provider"]
       )
       user.password = Devise.friendly_token[0, 20]
+      set_properties(user, auth)
     end
 
-    set_properties(user, auth)
+    user.account.token = auth["credentials"]["token"]
     user.save!
     user
   end
@@ -56,7 +57,6 @@ class User < ApplicationRecord
   def self.set_properties(user, auth)
     account = user.account
 
-    account.token = auth["credentials"]["token"]
     account.username = auth["info"]["nickname"] || auth["uid"]
     account.display_name = auth["info"]["name"] || account.username
     account.avatar_remote_url = auth["info"]["image"]
