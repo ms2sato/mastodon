@@ -112,7 +112,7 @@ module ErrorHandler
   end
 
   def behave_productions?
-    Rails.env.production? || Rails.env.staging?
+    Rails.env.production? || Rails.env.staging? || Rails.env.test?
   end
 
   def process_logging(exception, status_code)
