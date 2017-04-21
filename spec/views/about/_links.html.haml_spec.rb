@@ -15,7 +15,7 @@ describe 'about/_links.html.haml' do
     allow(view).to receive(:user_signed_in?).and_return(false)
     render
 
-    expect(rendered).to have_content(I18n.t('about.get_started'))
+    expect(rendered).not_to have_content(I18n.t('about.get_started'))
     expect(rendered).to have_content(I18n.t('auth.login'))
   end
 end

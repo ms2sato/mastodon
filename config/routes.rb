@@ -84,7 +84,6 @@ Rails.application.routes.draw do
     end
 
     resources :accounts, only: [:index, :show] do
-      resource :reset, only: [:create]
       resource :silence, only: [:create, :destroy]
       resource :suspension, only: [:create, :destroy]
     end

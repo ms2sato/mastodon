@@ -47,6 +47,9 @@ ActiveRecord::Schema.define(version: 20170418160728) do
     t.integer  "statuses_count",          default: 0,     null: false
     t.integer  "followers_count",         default: 0,     null: false
     t.integer  "following_count",         default: 0,     null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "token"
     t.datetime "last_webfingered_at"
     t.index "(((setweight(to_tsvector('simple'::regconfig, (display_name)::text), 'A'::\"char\") || setweight(to_tsvector('simple'::regconfig, (username)::text), 'B'::\"char\")) || setweight(to_tsvector('simple'::regconfig, (COALESCE(domain, ''::character varying))::text), 'C'::\"char\")))", name: "search_index", using: :gin
     t.index "lower((username)::text), lower((domain)::text)", name: "index_accounts_on_username_and_domain_lower", using: :btree
@@ -131,7 +134,6 @@ ActiveRecord::Schema.define(version: 20170418160728) do
     t.datetime "updated_at", null: false
     t.index ["account_id", "status_id"], name: "index_mentions_on_account_id_and_status_id", unique: true, using: :btree
     t.index ["status_id"], name: "index_mentions_on_status_id", using: :btree
-    t.index ["status_id"], name: "mentions_status_id_index", using: :btree
   end
 
   create_table "mutes", force: :cascade do |t|
