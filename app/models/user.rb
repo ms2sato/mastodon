@@ -4,17 +4,17 @@ class User < ApplicationRecord
   include Settings::Extend
 
   devise :trackable, :validatable, :omniauthable,
-         :two_factor_authenticatable, otp_secret_encryption_key: ENV['OTP_SECRET'],
+         :two_factor_authenticatable, :two_factor_backupable,
+         otp_secret_encryption_key: ENV['OTP_SECRET'],
+         otp_number_of_backup_codes: 10,
          omniauth_providers: [:github]
 
-  belongs_to :account, inverse_of: :user
+  belongs_to :account, inverse_of: :user, required: true
   accepts_nested_attributes_for :account
 
-  validates :account, presence: true
   validates :locale, inclusion: I18n.available_locales.map(&:to_s), unless: 'locale.nil?'
   validates :email, email: true
 
-  scope :prolific,  -> { joins('inner join statuses on statuses.account_id = users.account_id').select('users.*, count(statuses.id) as statuses_count').group('users.id').order('statuses_count desc') }
   scope :recent,    -> { order('id desc') }
   scope :admins,    -> { where(admin: true) }
   scope :confirmed, -> { where.not(confirmed_at: nil) }
@@ -31,6 +31,9 @@ class User < ApplicationRecord
     settings.boost_modal
   end
 
+  def setting_auto_play_gif
+    settings.auto_play_gif
+  end
 
   def self.from_omniauth(auth)
     user = User.joins(:account).find_by(accounts: {provider: auth["provider"], uid: auth["uid"]})

@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
   force_ssl if: "Rails.env.production? && ENV['LOCAL_HTTPS'] == 'true'"
 
   include Localized
+
   helper_method :current_account
+  helper_method :single_user_mode?
 
   before_action :store_current_location, except: :raise_not_found, unless: :devise_controller?
   before_action :set_user_activity
@@ -87,6 +89,10 @@ class ApplicationController < ActionController::Base
     true
   end
   # / --- ErrorHandler ---
+
+  def single_user_mode?
+    @single_user_mode ||= Rails.configuration.x.single_user_mode && Account.first
+  end
 
   def current_account
     @current_account ||= current_user.try(:account)
