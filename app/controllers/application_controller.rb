@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
   force_ssl if: "Rails.env.production? && ENV['LOCAL_HTTPS'] == 'true'"
 
   include Localized
+
   helper_method :current_account
+  helper_method :single_user_mode?
 
   before_action :store_current_location, except: :raise_not_found, unless: :devise_controller?
   before_action :set_user_activity
@@ -59,26 +61,38 @@ class ApplicationController < ActionController::Base
     render "errors/#{status_code}", layout: 'error', status: status_code
   end
 
-  def custom_process(_exception, _status_code)
+  def block!
     if self.class.url_without_domain?(request.original_url)
       # 不正アクセスは何も情報を渡さない
       logger.warn('url_without_domain!')
       render nothing: true, status: 404
       return true
     end
+
+    if request.fullpath == '/auth/sign_up'
+      render nothing: true, status: 404
+      return true
+    end
+
     false
   end
 
   def process_on_productions(exception, status_code)
     logger.warn("original_fullpath:#{request.original_fullpath}")
-    return false if custom_process(exception, status_code)
 
-    # エラー通知
-    logger.warn('send notify_exception')
-    Rollbar.error(exception, env: request.env)
+    if ENV['ROLLBAR_ACCESS_TOKEN']
+      # エラー通知
+      logger.warn('send notify_exception')
+      Rollbar.error(exception, env: request.env)
+    end
+
     true
   end
   # / --- ErrorHandler ---
+
+  def single_user_mode?
+    @single_user_mode ||= Rails.configuration.x.single_user_mode && Account.first
+  end
 
   def current_account
     @current_account ||= current_user.try(:account)
