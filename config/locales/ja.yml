@@ -24,6 +24,7 @@ ja:
     links: リンク
     other_instances: 他のインスタンス
     source_code: ソースコード
+    source_code_diff: 本家のソースコードとの差分
     status_count_after: トゥート
     status_count_before: トゥート数
     terms: プライバシーポリシー
