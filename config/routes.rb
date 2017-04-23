@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   get '.well-known/host-meta', to: 'well_known/host_meta#show', as: :host_meta, defaults: { format: 'xml' }
   get '.well-known/webfinger', to: 'well_known/webfinger#show', as: :webfinger
 
-  devise_for :users, skip: :sessions, controllers: {
+  devise_for :users, skip: [:sessions, :registrations], controllers: {
+    confirmations:      'auth/confirmations',
     omniauth_callbacks: 'auth/omniauth_callbacks'
   }
   devise_scope :user do
