@@ -18,12 +18,14 @@ Rails.application.routes.draw do
   get '.well-known/host-meta', to: 'well_known/host_meta#show', as: :host_meta, defaults: { format: 'xml' }
   get '.well-known/webfinger', to: 'well_known/webfinger#show', as: :webfinger
 
-  devise_for :users, skip: [:sessions, :registrations], controllers: {
+  devise_for :users, path: 'auth', skip: [:registrations], controllers: {
+    sessions:           'auth/sessions',
+    passwords:          'auth/passwords',
     confirmations:      'auth/confirmations',
     omniauth_callbacks: 'auth/omniauth_callbacks'
   }
   devise_scope :user do
-    delete '/auth/sign_out' => 'auth/sessions#destroy', as: 'destroy_user_session'
+    get '/auth/registrations/new', to: 'auth/registrations#new', as: 'new_user_registration'
   end
 
   get '/users/:username', to: redirect('/@%{username}'), constraints: { format: :html }
