@@ -31,9 +31,16 @@ class GithubAuthenticator < BaseService
   def set_properties(user)
     account = user.account
 
-    account.username = auth["info"]["nickname"] || auth["uid"]
-    account.display_name = auth["info"]["name"] || account.username
+    auth['info']['nickname'] = ENV['GITHUB_TEST_OVERWRITE_NICKNAME'] unless ENV['GITHUB_TEST_OVERWRITE_NICKNAME'].blank?
+
+    # Github nickname has hyphen. change to underscore
+    # https://www.npmjs.com/package/github-username-regex#githubusernameregex
+    account.username = truncate(
+      auth["info"].fetch("nickname"){ auth["uid"] }.downcase.gsub(/\-/, '_'),
+      length: 30, omission: ''
+    )
+    account.display_name = truncate(auth["info"]["name"] || account.username, length: 30, omission: '')
     account.avatar_remote_url = auth["info"]["image"]
-    account.note = auth["info"].fetch('bio') { "" }
+    account.note = truncate(auth["info"].fetch('bio') { "" }, length: 160)
   end
 end
