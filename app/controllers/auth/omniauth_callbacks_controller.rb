@@ -2,15 +2,13 @@
 class Auth::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def github
     sign_in GithubAuthenticator.new(request.env["omniauth.auth"]).authenticate
-    set_flash_message(:notice, :success, kind: "Github") if is_navigational_format?
+    set_flash_message(:notice, :success, kind: 'GitHub') if is_navigational_format?
     redirect_to root_url, event: :authentication
   rescue => e
-    p e.record.errors
-    Rails.logger.warn e.record.errors
-    raise e
-  end
-
-  def after_omniauth_failure_path_for(_)
-    about_path
+    set_flash_message :alert, :failure, kind: 'GitHub', reason: e.record.errors.full_messages.join('|')
+    p e.message
+    p e.record.errors.full_messages
+    send_to_rollbar(e)
+    redirect_to after_omniauth_failure_path_for(resource_name)
   end
 end
