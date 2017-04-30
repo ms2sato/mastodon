@@ -5,6 +5,10 @@ class Auth::RegistrationsController < Devise::RegistrationsController
 
   before_action :check_enabled_registrations, only: [:new]
 
+  def create
+    raise ActionController::RoutingError
+  end
+
   protected
 
   def build_resource(hash = nil)
