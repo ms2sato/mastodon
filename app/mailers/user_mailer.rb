@@ -8,7 +8,7 @@ class UserMailer < Devise::Mailer
 
   def mail(headers = {}, &block)
     return puts "email not found: #{headers}" if headers[:to].end_with?('@github')
-    super(headers) { |format| block.call(format) if block.present? }
+    super
   end
 
   def confirmation_instructions(user, token, _opts = {})
