@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  force_ssl if: "Rails.env.production? && ENV['LOCAL_HTTPS'] == 'true'"
+  force_ssl if: :https_enabled?
 
   include Localized
 
@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
   before_action :check_suspension, if: :user_signed_in?
 
   private
+
+  def https_enabled?
+    Rails.env.production? && ENV['LOCAL_HTTPS'] == 'true'
+  end
 
   def store_current_location
     store_location_for(:user, request.url)
@@ -79,15 +83,17 @@ class ApplicationController < ActionController::Base
 
   def process_on_productions(exception, status_code)
     logger.warn("original_fullpath:#{request.original_fullpath}")
-
-    if ENV['ROLLBAR_ACCESS_TOKEN']
-      # エラー通知
-      logger.warn('send notify_exception')
-      Rollbar.error(exception, env: request.env)
-    end
-
+    send_to_rollbar(exception) unless status_code == 404
     true
   end
+
+  def send_to_rollbar(exception)
+    return unless ENV['ROLLBAR_ACCESS_TOKEN']
+
+    logger.warn('send notify_exception')
+    Rollbar.error(exception, env: request.env)
+  end
+
   # / --- ErrorHandler ---
 
   def single_user_mode?

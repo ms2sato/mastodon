@@ -6,6 +6,11 @@ class UserMailer < Devise::Mailer
 
   helper :instance
 
+  def mail(headers = {}, &block)
+    return puts "email not found: #{headers}" if headers[:to].end_with?('@github')
+    super
+  end
+
   def confirmation_instructions(user, token, _opts = {})
     @resource = user
     @token    = token

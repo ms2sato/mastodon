@@ -1,11 +1,12 @@
 - content_for :header_tags do
-  = javascript_include_tag 'application_public', integrity: true
+  = javascript_include_tag 'application_public', integrity: true, crossorigin: 'anonymous'
 
 - content_for :page_title do
   = site_hostname
 
 - content_for :header_tags do
   %meta{ property: 'og:site_name', content: site_title }/
+  %meta{ property: 'og:url', content: about_url }/
   %meta{ property: 'og:type', content: 'website' }/
   %meta{ property: 'og:title', content: site_hostname }/
   %meta{ property: 'og:description', content: strip_tags(@instance_presenter.site_description.presence || t('about.about_mastodon')) }/
@@ -81,6 +82,8 @@
       ·
       = link_to t('about.apps'), 'https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/Apps.md'
       ·
-      = link_to t('about.source_code'), 'https://github.com/tootsuite/mastodon'
+      = link_to t('about.source_code'), 'https://github.com/ms2sato/mastodon'
+      ·
+      = link_to t('about.source_code_diff'), 'https://github.com/tootsuite/mastodon/compare/master...ms2sato:techdrive'
       ·
       = link_to t('about.other_instances'), 'https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/List-of-Mastodon-instances.md'

@@ -1,6 +1,7 @@
 .info
-  = link_to user_github_omniauth_authorize_path, class: "btn btn-block btn-social btn-github" do
-    %span.fa.fa-github
-    Sign in with GitHub
+  .omniauth-actions
+    = link_to user_github_omniauth_authorize_path, class: "btn btn-block btn-social btn-github" do
+      %span.fa.fa-github
+      Sign in with GitHub
   ·
   = link_to t('about.about_this'), about_more_path
