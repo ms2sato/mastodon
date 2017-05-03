@@ -1,4 +1,42 @@
 @import url("/bootstrap-social/bootstrap-social.css");
+
+.omniauth-actions {
+  .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  .btn-block {
+    display: block;
+  }
+
+  .btn-github {
+    box-shadow: 1px 2px 17px rgba(255, 255, 255, 0.4);
+    margin-bottom: 8px;
+
+    text-decoration: none;
+    padding-left: 44px;
+    text-align: left;
+  }
+}
+
 .about-body {
   .wrapper {
     max-width: 600px;
@@ -108,42 +146,6 @@
         text-decoration: underline;
       }
     }
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-  }
-
-  .btn-block {
-    display: block;
-    width: 100%;
-  }
-
-  .btn-github {
-    box-shadow: 1px 2px 17px rgba(255, 255, 255, 0.4);
-    margin-bottom: 8px;
-
-    text-decoration: none;
-    padding-left: 44px;
-    text-align: left;
   }
 
   @media screen and (max-width: 625px) {

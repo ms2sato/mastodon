@@ -1,17 +1,9 @@
 - content_for :page_title do
   = t('auth.register')
 
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render 'shared/error_messages', object: resource
-
-  = f.simple_fields_for :account do |ff|
-    = ff.input :username, autofocus: true, placeholder: t('simple_form.labels.defaults.username'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.username') }
-
-  = f.input :email, placeholder: t('simple_form.labels.defaults.email'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.email') }
-  = f.input :password, autocomplete: "off", placeholder: t('simple_form.labels.defaults.password'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.password') }
-  = f.input :password_confirmation, autocomplete: "off", placeholder: t('simple_form.labels.defaults.confirm_password'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.confirm_password') }
-
-  .actions
-    = f.button :button, t('auth.register'), type: :submit
+.omniauth-actions
+  = link_to user_github_omniauth_authorize_path, class: "btn btn-block btn-social btn-github" do
+    %span.fa.fa-github
+    Sign in with GitHub
 
 .form-footer= render "auth/shared/links"
