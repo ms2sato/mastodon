@@ -3,12 +3,12 @@
 class User < ApplicationRecord
   include Settings::Extend
 
-  devise :trackable, :validatable, :omniauthable,
+  devise :registerable, :recoverable,
+         :rememberable, :trackable, :validatable, :confirmable,
          :two_factor_authenticatable, :two_factor_backupable,
          otp_secret_encryption_key: ENV['OTP_SECRET'],
-         otp_number_of_backup_codes: 10,
-         omniauth_providers: [:github]
-
+         otp_number_of_backup_codes: 10
+  devise :omniauthable, omniauth_providers: [:github]
   belongs_to :account, inverse_of: :user, required: true
   accepts_nested_attributes_for :account
 
@@ -18,6 +18,31 @@ class User < ApplicationRecord
   scope :recent,    -> { order('id desc') }
   scope :admins,    -> { where(admin: true) }
   scope :confirmed, -> { where.not(confirmed_at: nil) }
+
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def update_with_password(params, *options)
+    current_password = params.delete(:current_password)
+
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = if true # valid_password?(current_password) shortcut password check
+               update_attributes(params, *options)
+             else
+               self.assign_attributes(params, *options)
+               self.valid?
+               self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+               false
+             end
+
+    clean_up_passwords
+    result
+  end
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
@@ -33,36 +58,5 @@ class User < ApplicationRecord
 
   def setting_auto_play_gif
     settings.auto_play_gif
-  end
-
-  def self.from_omniauth(auth)
-    user = User.joins(:account).find_by(accounts: {provider: auth["provider"], uid: auth["uid"]})
-    unless user
-      user = self.new
-      user.email =  auth["info"]["email"] || "#{auth["uid"]}@#{auth["provider"]}"
-      user.build_account(
-        uid: auth["uid"],
-        provider: auth["provider"]
-      )
-      user.password = Devise.friendly_token[0, 20]
-      set_properties(user, auth)
-    end
-
-    user.account.token = auth["credentials"]["token"]
-    user.save!
-    user
-  end
-
-  def provider_url
-    "https://github.com/#{nickname}"
-  end
-
-  def self.set_properties(user, auth)
-    account = user.account
-
-    account.username = auth["info"]["nickname"] || auth["uid"]
-    account.display_name = auth["info"]["name"] || account.username
-    account.avatar_remote_url = auth["info"]["image"]
-    account.note = auth["info"].fetch('bio') { "" }
   end
 end
