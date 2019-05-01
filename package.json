@@ -1,6 +1,6 @@
 {
   "name": "mastodon",
-  "license" : "AGPL-3.0",
+  "license": "AGPL-3.0",
   "scripts": {
     "start": "babel-node ./streaming/index.js --presets es2015,stage-2",
     "storybook": "start-storybook -p 9001 -c storybook",
@@ -19,7 +19,7 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-2": "^6.22.0",
     "babelify": "^7.3.0",
-    "browserify": "^14.1.0",
+    "browserify": "^14.5.0",
     "browserify-incremental": "^3.1.1",
     "bufferutil": "^2.0.1",
     "chai": "^3.5.0",
@@ -74,7 +74,8 @@
     "uuid": "^3.0.1",
     "webpack": "^2.2.1",
     "websocket.js": "^0.1.7",
-    "ws": "^2.1.0"
+    "ws": "^2.1.0",
+    "yarn": "^1.15.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.2",
