@@ -4,7 +4,7 @@
 .omniauth-actions
   = link_to user_github_omniauth_authorize_path, class: "btn btn-block btn-social btn-github" do
     %span.fa.fa-github
-    Sign in with GitHub
+    Sign in with GitHub（近日中にシャットダウンされますのでご注意ください）
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   = f.input :email, autofocus: true, placeholder: t('simple_form.labels.defaults.email'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.email') }
