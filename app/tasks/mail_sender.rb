@@ -14,6 +14,8 @@ class MailSender
     puts "dry_run: #{dry_run}"
 
     User.find_each do |user|
+      next if user.email.end_with?("@github")
+
       puts "mail to: #{user.email}"
       UserMailer.last_mail(user).deliver_later unless dry_run
     end
