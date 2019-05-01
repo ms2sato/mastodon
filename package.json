@@ -1,5 +1,10 @@
 {
   "name": "mastodon",
+  "engines": {
+    "node": "6.17.1",
+    "yarn": "1.15.2",
+    "npm": "6.5.0"
+  },
   "license": "AGPL-3.0",
   "scripts": {
     "start": "babel-node ./streaming/index.js --presets es2015,stage-2",
