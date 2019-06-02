@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  force_ssl if: "Rails.env.production? && ENV['LOCAL_HTTPS'] == 'true'"
+  force_ssl if: :https_enabled?
 
   include Localized
 
@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
   before_action :check_suspension, if: :user_signed_in?
 
   private
+
+  def https_enabled?
+    Rails.env.production? && ENV['LOCAL_HTTPS'] == 'true'
+  end
 
   def store_current_location
     store_location_for(:user, request.url)
