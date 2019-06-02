@@ -54,7 +54,7 @@ class Account < ApplicationRecord
   has_many :muting, -> { order('mutes.id desc') }, through: :mute_relationships, source: :target_account
 
   # Media
-  has_many :media_attachments, dependent: :destroy
+  has_many :media_attachments, dependent: :nullify
 
   # PuSH subscriptions
   has_many :subscriptions, dependent: :destroy
