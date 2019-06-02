@@ -37,4 +37,9 @@ class UserMailer < Devise::Mailer
       mail to: @resource.email, subject: I18n.t('devise.mailer.password_change.subject')
     end
   end
+
+  def last_mail(user)
+    @user = user
+    mail to: user.email, subject: "[重要なお知らせ]mstdn.techdrive.topは近日中に停止します"
+  end
 end
