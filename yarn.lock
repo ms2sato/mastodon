@@ -6491,6 +6491,13 @@ stringstream@~0.0.4:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/stringstream/-/stringstream-0.0.5.tgz#4e484cd4de5a0bbbee18e46307710a8a81621878"
 
+stringz@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/stringz/-/stringz-2.0.0.tgz#0a092bc64ed9b42eff2936d0401d2398393d54e9"
+  integrity sha512-pRWc5RGpedKEDvQ/ukYs8kS8tKj+cKu5ayOoyOvsavbpiLBcm1dGX6p1o5IagaN11cbfN8tKGpgQ4fHdEq5LBA==
+  dependencies:
+    unicode-astral-regex "^1.0.1"
+
 strip-ansi@^3.0.0, strip-ansi@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-3.0.1.tgz#6a385fb8853d952d5ff05d0e8aaf94278dc63dcf"
@@ -6791,6 +6798,11 @@ ultron@~1.1.0:
 umd@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/umd/-/umd-3.0.1.tgz#8ae556e11011f63c2596708a8837259f01b3d60e"
+
+unicode-astral-regex@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/unicode-astral-regex/-/unicode-astral-regex-1.0.1.tgz#2cab8529480646f9614ddbc7b62158ad05123feb"
+  integrity sha512-UP6cmDeiWi8bMDmkyXLRsDuVPTvPjh8Wsz+pHu1VkGgTBl4pUceYAdHXY0cdc6Q3+Z2q7QMzi/0E7L/S/yOvFw==
 
 uniq@^1.0.1:
   version "1.0.1"

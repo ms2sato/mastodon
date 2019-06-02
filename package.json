@@ -74,6 +74,7 @@
     "reselect": "^2.5.4",
     "sass-loader": "^6.0.2",
     "sinon": "^1.17.6",
+    "stringz": "^2.0.0",
     "style-loader": "^0.13.2",
     "utf-8-validate": "^3.0.1",
     "uuid": "^3.0.1",
